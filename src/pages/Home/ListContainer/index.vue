@@ -3,27 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!-- banner轮播 -->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/LunBo/1.webp" alt="" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/LunBo/2.webp" alt="" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/LunBo/3.webp" alt="" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/LunBo/4.jpg" alt="" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :list="bannerList" />
       </div>
       <div class="blocks">
         <div class="swiper-container" id="block">
@@ -134,8 +114,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "ListContainer",
+  name: "",
+  mounted() {
+    //派发action：通过Vuex发起Ajax请求：将数据存储在仓库中
+    this.$store.dispatch("getBannerList");
+  },
+  computed: {
+    ...mapState({
+      bannerList: (state) => state.home.bannerList,
+    }),
+  },
 };
 </script>
 
