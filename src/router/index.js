@@ -8,6 +8,7 @@ import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import Detail from '@/pages/Detail'
 
 //先把VueRouter原型对象的push保存一份
 let originPush = VueRouter.prototype.push
@@ -58,6 +59,11 @@ export default new VueRouter({
             path: "/register",
             component: Register,
             meta: { show: false }
+        },
+        {
+            path: '/detail',
+            component: Detail,
+            meta: { show: true }
         },
         //重定向，在项目跑起来的时候，访问/，立马让他定向到首页
         {
