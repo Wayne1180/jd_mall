@@ -23,12 +23,18 @@
         </div>
         <div class="asright">
           <div class="loginList">
-            <p>
+            <!-- 没有用户名，未登录 -->
+            <p v-if="!userName">
               <!-- 声明式导航务必要有to属性 -->
               <router-link to="/login">您好，请登录</router-link>
               <router-link class="register" to="/register"
                 >免费注册</router-link
               >
+            </p>
+            <!-- 登陆了 -->
+            <p v-else>
+              <a>{{ userName }}</a>
+              <a class="register" @click="logout">退出登录</a>
             </p>
           </div>
           <div class="typeList">
@@ -60,28 +66,6 @@
             v-model="keyword"
             placeholder="GeForce RTX 3090Ti"
           />
-          <!--  -->
-          <!-- <button @click="goSearch">
-            <svg
-              t="1653574803837"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="3816"
-              width="16"
-              height="16"
-            >
-              <path
-                d="M474.453333 884.053333c-225.28 0-409.6-184.32-409.6-409.6s184.32-409.6 409.6-409.6 409.6 184.32 409.6 409.6-184.32 409.6-409.6 409.6z m0-68.266666c187.733333 0 341.333333-153.6 341.333334-341.333334s-153.6-341.333333-341.333334-341.333333-341.333333 153.6-341.333333 341.333333 153.6 341.333333 341.333333 341.333334z m252.586667 54.613333c-13.653333-13.653333-10.24-37.546667 3.413333-47.786667s37.546667-10.24 47.786667 3.413334l64.853333 78.506666c13.653333 13.653333 10.24 37.546667-3.413333 47.786667s-37.546667 10.24-47.786667-3.413333l-64.853333-78.506667z"
-                p-id="3817"
-                fill="#ffffff"
-              ></path>
-            </svg>
-          </button> -->
-          <!-- 
-          type="button"
-             -->
           <button @click="goSearch" type="button">
             <svg
               t="1653574803837"
@@ -183,12 +167,29 @@ export default {
         this.$router.push(location);
       }
     },
+    //退出登录
+    async logout() {
+      //退出登录需要做的事情
+      //1.发请求，通知服务器退出登录【清除一些数组，token】
+      //2.清除项目当中的数据【userInfo、token】
+      try {
+        await this.$store.dispatch("userLogout");
+        //回到首页
+        this.$router.push("/home");
+      } catch (error) {}
+    },
   },
   mounted() {
     //通过全局事件总线清除关键字
     this.$bus.$on("clear", () => {
       this.keyword = "";
     });
+  },
+  computed: {
+    //用户名信息
+    userName() {
+      return this.$store.state.user.userInfo.name;
+    },
   },
 };
 </script>
