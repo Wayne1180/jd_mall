@@ -15,12 +15,13 @@ import Center from '@/pages/Center'
 import MyOrder from '@/pages/Center/myOrder'
 import GroupOrder from '@/pages/Center/groupOrder'
 
+
 //路由配置信息
 export default
     [
         {
             path: "/home",
-            component: Home,
+            component: () => import("@/pages/Home"),
             meta: { show: true }
         },
         {
@@ -58,12 +59,29 @@ export default
         {
             path: '/trade',
             component: Trade,
-            meta: { show: true }
+            meta: { show: true },
+            //路由独享守卫
+            beforeEnter: (to, from, next) => {
+                //去交易页面，必须是从购物车而来
+                if (from.path == '/shopcart') {
+                    next()
+                } else {
+                    //其他的路由组件而来，停留在当前
+                    next(false)
+                }
+            }
         },
         {
             path: '/pay',
             component: Pay,
-            meta: { show: true }
+            meta: { show: true },
+            beforeEnter: (to, from, next) => {
+                if (from.path == '/trade') {
+                    next()
+                } else {
+                    next(false)
+                }
+            }
         },
         {
             path: '/paysuccess',

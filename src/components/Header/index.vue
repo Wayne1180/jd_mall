@@ -38,7 +38,7 @@
             </p>
           </div>
           <div class="typeList">
-            <a href="###">我的订单</a>
+            <router-link to="/center/myorder">我的订单</router-link>
             <a href="###">我的京东</a>
             <a href="###">京东会员</a>
             <a href="###">企业采购</a>
@@ -119,7 +119,7 @@
             fill="#d81e06"
           ></path>
         </svg>
-        <a href="###">我的购物车</a>
+        <router-link to="/shopcart">我的购物车</router-link>
       </div>
 
       <!-- 热词 -->
