@@ -160,6 +160,9 @@ export default {
           .floorBanner {
             width: 330px;
             height: 100%;
+            img {
+              width: 100%;
+            }
           }
 
           .split {

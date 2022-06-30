@@ -1,20 +1,28 @@
-//引入一级路由组件
-import Home from '@/pages/Home'
-import Search from '@/pages/Search'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Detail from '@/pages/Detail'
-import AddCartSuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
-import Trade from '@/pages/Trade'
-import Pay from '@/pages/Pay'
-import PaySuccess from '@/pages/PaySuccess';
-import Center from '@/pages/Center'
+// //引入一级路由组件
+// import Home from '@/pages/Home'
+// import Search from '@/pages/Search'
+// import Login from '@/pages/Login'
+// import Register from '@/pages/Register'
+// import Detail from '@/pages/Detail'
+// import AddCartSuccess from '@/pages/AddCartSuccess'
+// import ShopCart from '@/pages/ShopCart'
+// import Trade from '@/pages/Trade'
+// import Pay from '@/pages/Pay'
+// import PaySuccess from '@/pages/PaySuccess';
+// import Center from '@/pages/Center'
 
-//引入二级路由
-import MyOrder from '@/pages/Center/myOrder'
-import GroupOrder from '@/pages/Center/groupOrder'
+// //引入二级路由
+// import MyOrder from '@/pages/Center/myOrder'
+// import GroupOrder from '@/pages/Center/groupOrder'
 
+//路由懒加载全写形式
+const foo = () => {
+    return import('@/pages/Search')
+}
+
+const car = () => {
+    return import('@/pages/ShopCart')
+}
 
 //路由配置信息
 export default
@@ -26,39 +34,39 @@ export default
         },
         {
             path: "/search/:keyword?",
-            component: Search,
+            component: foo,
             meta: { show: true },
             name: 'search'
         },
         {
             path: "/login",
-            component: Login,
+            component: () => import("@/pages/Login"),
             meta: { show: false }
         },
         {
             path: "/register",
-            component: Register,
+            component: () => import("@/pages/Register"),
             meta: { show: false }
         },
         {
             path: '/detail/:skuid',
-            component: Detail,
+            component: () => import("@/pages/Detail"),
             meta: { show: true }
         },
         {
             name: 'addcartsuccess',
             path: '/addcartsuccess',
-            component: AddCartSuccess,
+            component: () => import("@/pages/AddCartSuccess"),
             meta: { show: true }
         },
         {
             path: '/shopcart',
-            component: ShopCart,
+            component: car,
             meta: { show: true }
         },
         {
             path: '/trade',
-            component: Trade,
+            component: () => import("@/pages/Trade"),
             meta: { show: true },
             //路由独享守卫
             beforeEnter: (to, from, next) => {
@@ -73,7 +81,7 @@ export default
         },
         {
             path: '/pay',
-            component: Pay,
+            component: () => import("@/pages/Pay"),
             meta: { show: true },
             beforeEnter: (to, from, next) => {
                 if (from.path == '/trade') {
@@ -85,22 +93,22 @@ export default
         },
         {
             path: '/paysuccess',
-            component: PaySuccess,
+            component: () => import("@/pages/PaySuccess"),
             meta: { show: true }
         },
         {
             path: '/center',
-            component: Center,
+            component: () => import("@/pages/Center"),
             meta: { show: true },
             //二级路由组件
             children: [
                 {
                     path: 'myorder',
-                    component: MyOrder,
+                    component: () => import("@/pages/Center/myOrder"),
                 },
                 {
                     path: 'grouporder',
-                    component: GroupOrder,
+                    component: () => import("@/pages/Center/groupOrder"),
                 },
                 {
                     path: '/center',

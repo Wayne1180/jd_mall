@@ -13,6 +13,15 @@ export const reqGetBannerList = () => mockRequests.get('/banner')
 //获取floor
 export const reqFloorList = () => mockRequests.get('/floor')
 
+//获取右边轮播图数据
+export const reqGetTallList = () => mockRequests.get('/tall')
+
+//获取右边三张轮播图数据
+export const reqThreeList = () => mockRequests.get('/three')
+
+//获取京东快报数据
+export const reqNewsList = () => mockRequests.get('/news')
+
 //当前这个接口，给服务器传递参数params，至少是一个空对象
 export const reqGetSearchInfo = (params) => requests({ url: "/list", method: "post", data: params })
 

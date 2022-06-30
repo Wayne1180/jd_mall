@@ -27,6 +27,9 @@ export default {
       handler() {
         this.$nextTick(() => {
           var mySwiper = new Swiper(this.$refs.cur, {
+            autoplay: {
+              delay: 3000,
+            },
             loop: true,
             //如果需要分页器
             pagination: {
@@ -40,6 +43,14 @@ export default {
               prevEl: ".swiper-button-prev",
             },
           });
+          //鼠标停留停止切换
+          mySwiper.el.onmouseover = function () {
+            mySwiper.autoplay.stop();
+          };
+          //鼠标离开开始自动切换
+          mySwiper.el.onmouseout = function () {
+            mySwiper.autoplay.start();
+          };
         });
       },
     },

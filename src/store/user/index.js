@@ -82,10 +82,8 @@ const mutations = {
         removeToken()
     }
 }
-const getters = {}
 export default {
     state,
     actions,
-    mutations,
-    getters
+    mutations
 }

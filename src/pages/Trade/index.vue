@@ -5,7 +5,7 @@
       <h5 class="receive">收件人信息</h5>
       <div
         class="address clearFix"
-        v-for="(address, index) in addressInfo"
+        v-for="address in addressInfo"
         :key="address.id"
       >
         <span class="username" :class="{ selected: address.isDefault == 1 }">{{
@@ -36,7 +36,7 @@
         <h5>商品清单</h5>
         <ul
           class="list clearFix"
-          v-for="(order, index) in orderInfo.detailArrayList"
+          v-for="order in orderInfo.detailArrayList"
           :key="order.skuId"
         >
           <li>
@@ -157,7 +157,7 @@ export default {
         orderDetailList: this.orderInfo.detailArrayList, //商品清单
       };
       //需要带两个参数 tradeNo data
-      let result = await this.$API.reqSubmitOrder();
+      let result = await this.$API.reqSubmitOrder(tradeNo, data);
       console.log(result);
       //提交订单成功
       if (result.code == 200) {

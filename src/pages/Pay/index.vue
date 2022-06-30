@@ -106,70 +106,71 @@ export default {
   },
   computed: {
     orderId() {
-      return this.$router.query.orderId;
+      return this.$route.query.orderId;
     },
     //尽量不要在生命周期函数中async await
-    mounted() {
-      this.getPayInfo();
+  },
+  mounted() {
+    this.getPayInfo();
+  },
+  methods: {
+    //获取支付信息
+    async getPayInfo() {
+      let result = await this.$API.reqPayInfo(this.orderId);
+      //如果成功，在组件当中存储支付信息
+      if (result.code == 200) {
+        this.payInfo = result.data;
+      }
     },
-    methods: {
-      //获取支付信息
-      async getPayInfo() {
-        let result = await this.$API.reqPayInfo(this.orderId);
-        //如果成功，在组件当中存储支付信息
-        if (result.code == 200) {
-          this.payInfo = result.data;
-        }
-      },
-      //弹出支付二维码
-      async open() {
-        //生成一个二维码
-        let url = await QRCode.toDataURL(this.payInfo.codeUrl);
-        this.$alert(`<img src=${url} />`, "请你微信支付", {
-          dangerouslyUseHTMLString: true,
-          center: true,
-          showCancelButton: true,
-          cancelButtonText: "支付遇见问题？",
-          confirmButtonText: "已支付成功",
-          showClose: false,
-          beforeClose: (type, instance, done) => {
-            //type区分取消|确定按钮
-            //instance:当前组件实例
-            //done:关闭弹出框的方法
-            if (type == "cancel") {
-              alert("请联系管理员Wayne");
-              //清除定时器
-              clearInterval(this.timer);
-              this.timer = null;
-              //关闭弹出框
-              done();
-            } else {
-              //判断是否真的支付了
-              // if ((this.code = 200)) {
-              clearInterval(this.timer);
-              this.timer = null;
-              done();
-              this.$router.push("/paysuccess");
-              // }
-            }
-          },
-        });
-        if (!this.timer) {
-          this.timer = setInterval(async () => {
-            //发请求，获取用户支付状态
-            let result = await this.$API.reqPayState(this.orderId);
-            if (result.code == 200) {
-              //第一步，清除定时器
-              clearInterval(this.timer);
-              (this.timer = null), (this.code = result.code);
-              //关闭弹出框
-              this.$msgbox.close();
-              //跳转到下一路由
-              this.$router.push("/paysuccess");
-            }
-          }, 1000);
-        }
-      },
+    //弹出支付二维码
+    async open() {
+      //生成一个二维码
+      let url = QRCode.toDataURL(this.payInfo.codeUrl);
+      this.$alert(`<img src=${url} />`, "请你微信支付", {
+        dangerouslyUseHTMLString: true,
+        center: true,
+        showCancelButton: true,
+        cancelButtonText: "支付遇见问题？",
+        confirmButtonText: "已支付成功",
+        showClose: false,
+        beforeClose: (type, instance, done) => {
+          //type区分取消|确定按钮
+          //instance:当前组件实例
+          //done:关闭弹出框的方法
+          if (type == "cancel") {
+            alert("请联系管理员");
+            //清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            //关闭弹出框
+            done();
+          } else {
+            //判断是否真的支付了
+            // if ((this.code = 200)) {
+            clearInterval(this.timer);
+            this.timer = null;
+            done();
+            this.$router.push("/paysuccess");
+            // }
+          }
+        },
+      });
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          //发请求，获取用户支付状态
+          let result = await this.$API.reqPayStatus(this.orderId);
+          if (result.code == 200) {
+            //第一步，清除定时器
+            clearInterval(this.timer);
+            this.timer = null;
+            this.code = result.code;
+            //关闭弹出框
+            this.$msgbox.close();
+            //跳转到下一路由
+            this.$router.push("/paysuccess");
+          }
+        }, 1000);
+      }
     },
   },
 };

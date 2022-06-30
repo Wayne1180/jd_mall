@@ -4,13 +4,12 @@ import App from './App.vue'
 import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
 import Pagination from '@/components/Pagination'
-import { Button, MessageBox } from 'element-ui'
+import { MessageBox } from 'element-ui'
 //第一个参数：全局组件的名字 第二个参数 ：哪一个组件
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
 // 注册全局组件
-Vue.component(Button.name, Button)
 //Element UI注册组件的时候，还有一种写法，挂在原型上
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
@@ -24,29 +23,25 @@ import store from '@/store'
 import '@/mock/mockServe'
 
 //引入swiper样式
-import "swiper/css/swiper.css"
-import { reqGetSearchInfo } from '@/api'
+import "swiper/css/swiper.min.css"
 
 //统一接口api文件夹里面全部请求函数
 import * as API from '@/api'
 
-import img from '@/assets/logo.png'
+import Jdog from '@/assets/BigLogo.jpg'
+
 //引入插件
 import VueLazyload from 'vue-lazyload'
 //注册插件
 Vue.use(VueLazyload, {
   //懒加载默认的图片
-  loading: img
-})
-
-//引入自定义插件
-import myPlugins from '@/plugins/myPlugins'
-Vue.use(myPlugins, {
-  name: 'upper'
+  loading: Jdog
 })
 
 //引入表单校验插件
 import "@/plugins/validate"
+
+Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),

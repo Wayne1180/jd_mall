@@ -6,23 +6,17 @@
         <Carousel :list="bannerList" />
       </div>
       <div class="blocks">
-        <div class="swiper-container" id="block">
+        <div class="swiper-container" ref="three">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/Blocks/1.png" alt="" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/Blocks/2.png" alt="" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/Blocks/3.png" alt="" />
+            <div
+              class="swiper-slide"
+              v-for="carousel in tallList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
           </div>
-          <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
         </div>
       </div>
       <div class="right">
@@ -33,21 +27,9 @@
           </h4>
           <div class="clearix"></div>
           <ul class="news-list unstyled">
-            <li>
-              <span class="bold">最新</span>用vivo X80
-              Pro拍照，简单几步拍出专业效果
-            </li>
-            <li>
-              <span class="bold">推荐</span>用手机拍照总是不满意？vivo X80
-              Pro带你体验
-            </li>
-            <li>
-              <span class="bold">推荐</span>你是我的神！vivo
-              X80，游戏手机中的一匹黑马
-            </li>
-            <li>
-              <span class="bold">热评</span
-              >解锁多样化吃法，楼兰蜜语新疆灰枣值得一试
+            <li v-for="news in newsList" :key="news.id">
+              <span class="bold">{{ news.redname }}</span
+              >{{ news.newsdetail }}
             </li>
           </ul>
         </div>
@@ -101,30 +83,62 @@
             <span class="service-intro">白条</span>
           </li>
         </ul>
-        <!-- <div class="ads">
-                        <img src="./images/ad1.png" alt="">
-                    </div> -->
       </div>
-
-      <!-- sortlist -->
     </div>
-
-    <!-- 列表 -->
   </div>
 </template>
 
 <script>
+// 开始
+import Swiper from "swiper";
+// 结束
 import { mapState } from "vuex";
 export default {
   name: "",
   mounted() {
     //派发action：通过Vuex发起Ajax请求：将数据存储在仓库中
     this.$store.dispatch("getBannerList");
+    this.$store.dispatch("getTallList");
+    this.$store.dispatch("getThreeList");
+    this.$store.dispatch("getNewsList");
   },
   computed: {
     ...mapState({
       bannerList: (state) => state.home.bannerList,
+      tallList: (state) => state.home.tallList,
+      threeList: (state) => state.home.threeList,
+      newsList: (state) => state.home.newsList,
     }),
+  },
+  //开始
+  watch: {
+    threeList: {
+      immediate: true,
+      handler() {
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(this.$refs.three, {
+            autoplay: {
+              delay: 3000,
+            },
+            loop: true,
+            //如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+              //点击小球的时候也切换图片
+              clickable: true,
+            },
+          });
+          //鼠标停留停止切换
+          mySwiper.el.onmouseover = function () {
+            mySwiper.autoplay.stop();
+          };
+          //鼠标离开开始自动切换
+          mySwiper.el.onmouseout = function () {
+            mySwiper.autoplay.start();
+          };
+        });
+      },
+    },
   },
 };
 </script>
@@ -297,19 +311,6 @@ export default {
           }
         }
       }
-
-      // .ads {
-      //     margin-top: 5px;
-
-      //     img {
-      //         opacity: 0.8;
-      //         transition: all 400ms;
-
-      //         &:hover {
-      //             opacity: 1;
-      //         }
-      //     }
-      // }
     }
   }
 }

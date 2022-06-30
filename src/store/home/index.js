@@ -1,9 +1,12 @@
-import { reqCategoryList, reqGetBannerList, reqFloorList } from "@/api"
+import { reqCategoryList, reqGetBannerList, reqFloorList, reqGetTallList, reqThreeList, reqNewsList } from "@/api"
 //home模块的小仓库
 const state = {
     categoryList: [],
     bannerList: [],
-    floorList: []
+    floorList: [],
+    tallList: [],
+    threeList: [],
+    newsList: []
 }
 const actions = {
     //通过API里面的接口函数调用，向服务器发请求，获取服务器的数据
@@ -24,6 +27,24 @@ const actions = {
         if (result.code == 200) {
             commit('GETFLOORLIST', result.data)
         }
+    },
+    async getTallList({ commit }) {
+        let result = await reqGetTallList()
+        if (result.code == 200) {
+            commit('GETTALLLIST', result.data)
+        }
+    },
+    async getThreeList({ commit }) {
+        let result = await reqThreeList()
+        if (result.code == 200) {
+            commit('GETTHREELIST', result.data)
+        }
+    },
+    async getNewsList({ commit }) {
+        let result = await reqNewsList()
+        if (result.code == 200) {
+            commit('GETNEWSLIST', result.data)
+        }
     }
 }
 const mutations = {
@@ -36,12 +57,19 @@ const mutations = {
     },
     GETFLOORLIST(state, floorList) {
         state.floorList = floorList
+    },
+    GETTALLLIST(state, tallList) {
+        state.tallList = tallList
+    },
+    GETTHREELIST(state, threeList) {
+        state.threeList = threeList
+    },
+    GETNEWSLIST(state, newsList) {
+        state.newsList = newsList
     }
 }
-const getters = {}
 export default {
     state,
     actions,
-    mutations,
-    getters
+    mutations
 }
