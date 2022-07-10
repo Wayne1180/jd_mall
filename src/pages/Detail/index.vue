@@ -68,12 +68,12 @@
                   支&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持
                 </div>
                 <div class="fixWidth">
-                  以旧换新，闲置手机回收 4G套餐超值抢 礼品购
+                  以旧换新，闲置手机回收 5G套餐超值抢 礼品购
                 </div>
               </div>
               <div class="supportArea">
                 <div class="title">配 送 至</div>
-                <div class="fixWidth">广东省 深圳市 宝安区</div>
+                <div class="fixWidth">河南省 郑州市 中原区</div>
               </div>
             </div>
           </div>
@@ -81,17 +81,12 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl
-                v-for="(spuSaleAttr, index) in spuSaleAttrList"
-                :key="spuSaleAttr.id"
-              >
+              <dl v-for="spuSaleAttr in spuSaleAttrList" :key="spuSaleAttr.id">
                 <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
                 <dd
                   changepirce="0"
                   :class="{ active: spuSaleAttrValue.isChecked == 1 }"
-                  v-for="(
-                    spuSaleAttrValue, index
-                  ) in spuSaleAttr.spuSaleAttrValueList"
+                  v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
                   @click="
                     changeActive(
@@ -335,10 +330,12 @@
                 <li>像素：1000-1600万</li>
                 <li>机身内存：64GB</li>
               </ul>
-              <div class="intro-detail">
-                <img src="./images/intro01.png" />
-                <img src="./images/intro02.png" />
-                <img src="./images/intro03.png" />
+              <div
+                class="intro-detail"
+                v-for="slide in skuImageList"
+                :key="slide.id"
+              >
+                <img :src="slide.imgUrl" />
               </div>
             </div>
             <div id="two" class="tab-pane">
@@ -921,7 +918,8 @@ export default {
 
               .intro-detail {
                 img {
-                  width: 100%;
+                  width: 50%;
+                  float: left;
                 }
               }
             }

@@ -1,4 +1,4 @@
-import { reqCategoryList, reqGetBannerList, reqFloorList, reqGetTallList, reqThreeList, reqNewsList } from "@/api"
+import { reqCategoryList, reqGetBannerList, reqFloorList, reqGetTallList, reqThreeList, reqNewsList, reqCrossWise } from "@/api"
 //home模块的小仓库
 const state = {
     categoryList: [],
@@ -6,7 +6,8 @@ const state = {
     floorList: [],
     tallList: [],
     threeList: [],
-    newsList: []
+    newsList: [],
+    crossWise: [],
 }
 const actions = {
     //通过API里面的接口函数调用，向服务器发请求，获取服务器的数据
@@ -45,6 +46,12 @@ const actions = {
         if (result.code == 200) {
             commit('GETNEWSLIST', result.data)
         }
+    },
+    async getCrossWise({ commit }) {
+        let result = await reqCrossWise()
+        if (result.code == 200) {
+            commit('GETCROSSWISE', result.data)
+        }
     }
 }
 const mutations = {
@@ -66,6 +73,9 @@ const mutations = {
     },
     GETNEWSLIST(state, newsList) {
         state.newsList = newsList
+    },
+    GETCROSSWISE(state, crossWise) {
+        state.crossWise = crossWise
     }
 }
 export default {

@@ -72,11 +72,7 @@
           </div>
           <div class="goods-list">
             <ul class="yui3-g">
-              <li
-                class="yui3-u-1-5"
-                v-for="(good, index) in goodsList"
-                :key="good.id"
-              >
+              <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
                     <router-link :to="`/detail/${good.id}`">
@@ -142,7 +138,7 @@ export default {
         keyword: "",
         order: "1:desc",
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 15,
         props: [],
         trademark: "",
       },

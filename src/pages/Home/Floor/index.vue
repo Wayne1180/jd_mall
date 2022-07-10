@@ -151,6 +151,11 @@ export default {
                 line-height: 26px;
               }
             }
+            img {
+              &:hover {
+                opacity: 0.8;
+              }
+            }
 
             img {
               width: 100%;
@@ -196,6 +201,11 @@ export default {
 
           .center {
             border: 1px solid #e4e4e4;
+            img {
+              &:hover {
+                opacity: 0.8;
+              }
+            }
           }
         }
       }

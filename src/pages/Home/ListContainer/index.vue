@@ -10,10 +10,12 @@
           <div class="swiper-wrapper">
             <div
               class="swiper-slide"
-              v-for="carousel in tallList"
-              :key="carousel.id"
+              v-for="(key, index) in threeList"
+              :key="index"
             >
-              <img :src="carousel.imgUrl" />
+              <div v-for="carousel in key" :key="carousel.id">
+                <img :src="carousel.imgUrl" />
+              </div>
             </div>
           </div>
           <div class="swiper-pagination"></div>
@@ -168,6 +170,10 @@ export default {
       padding: 5px;
       padding-top: 0px;
       float: left;
+      img {
+        width: 190px;
+        height: 150px;
+      }
     }
 
     .right {

@@ -6,7 +6,7 @@
       <div class="value logos">
         <ul class="logo-list">
           <li
-            v-for="(trademark, index) in trademarkList"
+            v-for="trademark in trademarkList"
             :key="trademark.tmId"
             @click="tradeMarkHandler(trademark)"
           >
@@ -20,11 +20,7 @@
       </div>
     </div>
     <!-- 平台售卖属性的地方 -->
-    <div
-      class="type-wrap"
-      v-for="(attr, index) in attrsList"
-      :key="attr.attrId"
-    >
+    <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId">
       <!-- 平台售卖属性 -->
       <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">

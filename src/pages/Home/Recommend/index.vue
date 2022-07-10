@@ -5,7 +5,7 @@
     </div>
     <!-- 轮播图 -->
     <div class="center">
-      <div class="swiper-container" id="center">
+      <!-- <div class="swiper-container" id="center">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
             <img src="./images/Center/1.png" alt="" />
@@ -26,13 +26,36 @@
             <img src="./images/Center/12.png" alt="" />
           </div>
         </div>
-        <!-- 如果需要分页器 -->
+      </div> -->
+      <!-- <div class="swiper-container" ref="cross">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide"
+            v-for="(key, index) in crossWise"
+            :key="index"
+          >
+            <div v-for="carousel in key" :key="carousel.id">
+              <img :src="carousel.imgUrl" />
+            </div>
+          </div>
+        </div>
         <div class="swiper-pagination"></div>
-
-        <!-- 如果需要导航按钮 -->
+      </div> -->
+      <div class="swiper-container" ref="cross">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide"
+            v-for="carousel in crossWise"
+            :key="carousel.id"
+          >
+            <img :src="carousel.imgUrl" />
+          </div>
+        </div>
+        <!-- <div class="swiper-pagination"></div> -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
       </div>
+      <!-- <Carousel :list="crossWise" /> -->
     </div>
     <div class="right">
       <img src="./images/Center/right.png" alt="" />
@@ -41,7 +64,54 @@
 </template>
 
 <script>
-export default {};
+import Swiper from "swiper";
+import { mapState } from "vuex";
+export default {
+  name: "",
+  mounted() {
+    this.$store.dispatch("getCrossWise");
+  },
+  computed: {
+    ...mapState({
+      crossWise: (state) => state.home.crossWise,
+    }),
+  },
+  watch: {
+    crossWise: {
+      immediate: true,
+      handler() {
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(this.$refs.cross, {
+            autoplay: {
+              delay: 3000,
+            },
+            loopedSlides: 3,
+            slidesPerView: 4,
+            loop: true,
+            //如果需要分页器
+            // pagination: {
+            //   el: ".swiper-pagination",
+            //   //点击小球的时候也切换图片
+            //   clickable: true,
+            // },
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+          //鼠标停留停止切换
+          mySwiper.el.onmouseover = function () {
+            mySwiper.autoplay.stop();
+          };
+          //鼠标离开开始自动切换
+          mySwiper.el.onmouseout = function () {
+            mySwiper.autoplay.start();
+          };
+        });
+      },
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
